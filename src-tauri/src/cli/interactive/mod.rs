@@ -228,6 +228,7 @@ fn manage_providers_menu(app_type: &AppType) -> Result<(), AppError> {
         let choices = vec![
             texts::view_current_provider(),
             texts::switch_provider(),
+            texts::add_provider(),
             texts::delete_provider(),
             texts::back_to_main(),
         ];
@@ -241,6 +242,8 @@ fn manage_providers_menu(app_type: &AppType) -> Result<(), AppError> {
             pause();
         } else if choice == texts::switch_provider() {
             switch_provider_interactive(&state, app_type, &providers, &current_id)?;
+        } else if choice == texts::add_provider() {
+            add_provider_interactive(app_type)?;
         } else if choice == texts::delete_provider() {
             delete_provider_interactive(&state, app_type, &providers, &current_id)?;
         } else {
@@ -271,8 +274,51 @@ fn view_current_provider(
             texts::header_category().trim_end_matches(':'),
             provider.category.as_deref().unwrap_or("unknown")
         );
+
+        // Extract and display API endpoint
+        if let Some(api_url) = extract_api_url(&provider.settings_config, app_type) {
+            println!("API:      {}", api_url);
+        }
     }
     Ok(())
+}
+
+fn extract_api_url(settings_config: &serde_json::Value, app_type: &AppType) -> Option<String> {
+    match app_type {
+        crate::app_config::AppType::Claude => {
+            // For Claude: env.ANTHROPIC_BASE_URL
+            settings_config
+                .get("env")?
+                .get("ANTHROPIC_BASE_URL")?
+                .as_str()
+                .map(|s| s.to_string())
+        }
+        crate::app_config::AppType::Codex => {
+            // For Codex: parse TOML config for base_url
+            if let Some(config_str) = settings_config.get("config")?.as_str() {
+                // Simple regex-free extraction
+                for line in config_str.lines() {
+                    let line = line.trim();
+                    if line.starts_with("base_url") {
+                        if let Some(url_part) = line.split('=').nth(1) {
+                            let url = url_part.trim().trim_matches('"').trim_matches('\'');
+                            return Some(url.to_string());
+                        }
+                    }
+                }
+            }
+            None
+        }
+        crate::app_config::AppType::Gemini => {
+            // For Gemini: env.GEMINI_BASE_URL or similar
+            settings_config
+                .get("env")?
+                .get("GEMINI_BASE_URL")
+                .or_else(|| settings_config.get("env")?.get("BASE_URL"))?
+                .as_str()
+                .map(|s| s.to_string())
+        }
+    }
 }
 
 fn switch_provider_interactive(
@@ -360,6 +406,34 @@ fn delete_provider_interactive(
 
     ProviderService::delete(state, app_type.clone(), id)?;
     println!("\n{}", success(&texts::deleted_provider(id)));
+    pause();
+
+    Ok(())
+}
+
+fn add_provider_interactive(_app_type: &AppType) -> Result<(), AppError> {
+    use inquire::Text;
+
+    println!("\n{}", highlight(texts::add_provider().trim_start_matches("➕ ")));
+    println!("{}", "─".repeat(60));
+
+    // Interactive input
+    let _name = Text::new("Provider name:")
+        .prompt()
+        .map_err(|e| AppError::Message(format!("Prompt failed: {}", e)))?;
+
+    let _category = Select::new(
+        "Category:",
+        vec!["official", "custom", "third_party", "unknown"],
+    )
+    .prompt()
+    .map_err(|e| AppError::Message(format!("Prompt failed: {}", e)))?;
+
+    println!("\n{}", info("Note: Provider configuration is complex and varies by app type."));
+    println!("{}", info("For now, please use the config file directly to add detailed settings."));
+    println!("\n{}", error("Interactive provider creation is not yet fully implemented."));
+    println!("{}", info("Coming soon in the next update!"));
+
     pause();
 
     Ok(())

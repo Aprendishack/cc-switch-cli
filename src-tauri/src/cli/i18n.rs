@@ -225,6 +225,14 @@ pub mod texts {
         }
     }
 
+    pub fn add_provider() -> &'static str {
+        if is_chinese() {
+            "➕ 新增供应商"
+        } else {
+            "➕ Add Provider"
+        }
+    }
+
     pub fn delete_provider() -> &'static str {
         if is_chinese() {
             "🗑️  删除供应商"
