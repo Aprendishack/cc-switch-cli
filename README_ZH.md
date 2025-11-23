@@ -28,17 +28,16 @@
 
 ## 📸 截图预览
 
-### 交互式主界面
-
-<div align="center">
-  <img src="assets/screenshots/main-ch.png" alt="主界面" width="800"/>
-</div>
-
-### 供应商管理
-
-<div align="center">
-  <img src="assets/screenshots/add-ch.png" alt="供应商管理" width="800"/>
-</div>
+<table>
+  <tr>
+    <th>交互式主界面</th>
+    <th>供应商管理</th>
+  </tr>
+  <tr>
+    <td><img src="assets/screenshots/main-ch.png" alt="主界面" width="100%"/></td>
+    <td><img src="assets/screenshots/add-ch.png" alt="供应商管理" width="100%"/></td>
+  </tr>
+</table>
 
 ---
 
