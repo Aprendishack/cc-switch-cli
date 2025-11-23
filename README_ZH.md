@@ -2,8 +2,8 @@
 
 # CC-Switch CLI
 
-[![Version](https://img.shields.io/badge/version-4.0.0--cli-blue.svg)](https://github.com/farion1231/cc-switch/releases)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/farion1231/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.0--cli-blue.svg)](https://github.com/saladday/cc-switch-cli/releases)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/saladday/cc-switch-cli/releases)
 [![Built with Rust](https://img.shields.io/badge/built%20with-Rust-orange.svg)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -128,13 +128,13 @@ cc-switch app switch <app>           # 切换应用上下文
 
 ### 方法 1：下载预编译二进制（推荐）
 
-从 [GitHub Releases](https://github.com/farion1231/cc-switch/releases) 下载最新版本。
+从 [GitHub Releases](https://github.com/saladday/cc-switch-cli/releases) 下载最新版本。
 
 #### macOS
 
 ```bash
 # 下载 Universal Binary（推荐，支持 Apple Silicon + Intel）
-curl -LO https://github.com/farion1231/cc-switch/releases/latest/download/cc-switch-cli-v4.0.0-darwin-universal.tar.gz
+curl -LO https://github.com/saladday/cc-switch-cli/releases/latest/download/cc-switch-cli-v4.0.0-darwin-universal.tar.gz
 
 # 解压
 tar -xzf cc-switch-cli-v4.0.0-darwin-universal.tar.gz
@@ -153,7 +153,7 @@ xattr -cr /usr/local/bin/cc-switch
 
 ```bash
 # 下载
-curl -LO https://github.com/farion1231/cc-switch/releases/latest/download/cc-switch-cli-v4.0.0-linux-x64.tar.gz
+curl -LO https://github.com/saladday/cc-switch-cli/releases/latest/download/cc-switch-cli-v4.0.0-linux-x64.tar.gz
 
 # 解压
 tar -xzf cc-switch-cli-v4.0.0-linux-x64.tar.gz
@@ -169,7 +169,7 @@ sudo mv cc-switch /usr/local/bin/
 
 ```bash
 # 适用于树莓派或 ARM 服务器
-curl -LO https://github.com/farion1231/cc-switch/releases/latest/download/cc-switch-cli-v4.0.0-linux-arm64.tar.gz
+curl -LO https://github.com/saladday/cc-switch-cli/releases/latest/download/cc-switch-cli-v4.0.0-linux-arm64.tar.gz
 tar -xzf cc-switch-cli-v4.0.0-linux-arm64.tar.gz
 chmod +x cc-switch
 sudo mv cc-switch /usr/local/bin/
@@ -179,7 +179,7 @@ sudo mv cc-switch /usr/local/bin/
 
 ```powershell
 # 下载 zip 文件
-# https://github.com/farion1231/cc-switch/releases/latest/download/cc-switch-cli-v4.0.0-windows-x64.zip
+# https://github.com/saladday/cc-switch-cli/releases/latest/download/cc-switch-cli-v4.0.0-windows-x64.zip
 
 # 解压后将 cc-switch.exe 移动到 PATH 目录，例如：
 move cc-switch.exe C:\Windows\System32\
@@ -195,8 +195,8 @@ move cc-switch.exe C:\Windows\System32\
 
 **构建：**
 ```bash
-git clone https://github.com/farion1231/cc-switch.git
-cd cc-switch/src-tauri
+git clone https://github.com/saladday/cc-switch-cli.git
+cd cc-switch-cli/src-tauri
 cargo build --release
 
 # 二进制位置：./target/release/cc-switch

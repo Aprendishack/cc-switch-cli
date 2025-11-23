@@ -2,8 +2,8 @@
 
 # CC-Switch CLI
 
-[![Version](https://img.shields.io/badge/version-4.0.0--cli-blue.svg)](https://github.com/farion1231/cc-switch/releases)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/farion1231/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.0--cli-blue.svg)](https://github.com/saladday/cc-switch-cli/releases)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/saladday/cc-switch-cli/releases)
 [![Built with Rust](https://img.shields.io/badge/built%20with-Rust-orange.svg)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -128,13 +128,13 @@ cc-switch app switch <app>           # Switch application context
 
 ### Method 1: Download Pre-built Binaries (Recommended)
 
-Download the latest release from [GitHub Releases](https://github.com/farion1231/cc-switch/releases).
+Download the latest release from [GitHub Releases](https://github.com/saladday/cc-switch-cli/releases).
 
 #### macOS
 
 ```bash
 # Download Universal Binary (recommended, supports Apple Silicon + Intel)
-curl -LO https://github.com/farion1231/cc-switch/releases/latest/download/cc-switch-cli-v4.0.0-darwin-universal.tar.gz
+curl -LO https://github.com/saladday/cc-switch-cli/releases/latest/download/cc-switch-cli-v4.0.0-darwin-universal.tar.gz
 
 # Extract
 tar -xzf cc-switch-cli-v4.0.0-darwin-universal.tar.gz
@@ -153,7 +153,7 @@ xattr -cr /usr/local/bin/cc-switch
 
 ```bash
 # Download
-curl -LO https://github.com/farion1231/cc-switch/releases/latest/download/cc-switch-cli-v4.0.0-linux-x64.tar.gz
+curl -LO https://github.com/saladday/cc-switch-cli/releases/latest/download/cc-switch-cli-v4.0.0-linux-x64.tar.gz
 
 # Extract
 tar -xzf cc-switch-cli-v4.0.0-linux-x64.tar.gz
@@ -169,7 +169,7 @@ sudo mv cc-switch /usr/local/bin/
 
 ```bash
 # For Raspberry Pi or ARM servers
-curl -LO https://github.com/farion1231/cc-switch/releases/latest/download/cc-switch-cli-v4.0.0-linux-arm64.tar.gz
+curl -LO https://github.com/saladday/cc-switch-cli/releases/latest/download/cc-switch-cli-v4.0.0-linux-arm64.tar.gz
 tar -xzf cc-switch-cli-v4.0.0-linux-arm64.tar.gz
 chmod +x cc-switch
 sudo mv cc-switch /usr/local/bin/
@@ -179,7 +179,7 @@ sudo mv cc-switch /usr/local/bin/
 
 ```powershell
 # Download the zip file
-# https://github.com/farion1231/cc-switch/releases/latest/download/cc-switch-cli-v4.0.0-windows-x64.zip
+# https://github.com/saladday/cc-switch-cli/releases/latest/download/cc-switch-cli-v4.0.0-windows-x64.zip
 
 # After extracting, move cc-switch.exe to a PATH directory, e.g.:
 move cc-switch.exe C:\Windows\System32\
@@ -195,8 +195,8 @@ move cc-switch.exe C:\Windows\System32\
 
 **Build:**
 ```bash
-git clone https://github.com/farion1231/cc-switch.git
-cd cc-switch/src-tauri
+git clone https://github.com/saladday/cc-switch-cli.git
+cd cc-switch-cli/src-tauri
 cargo build --release
 
 # Binary location: ./target/release/cc-switch
