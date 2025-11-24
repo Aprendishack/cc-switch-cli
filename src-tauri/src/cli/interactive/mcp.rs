@@ -30,9 +30,9 @@ pub fn manage_mcp_menu(_app_type: &AppType) -> Result<(), AppError> {
             for (_, server) in &server_list {
                 table.add_row(vec![
                     server.name.clone(),
-                    if server.apps.claude { "✓" } else { "" }.to_string(),
-                    if server.apps.codex { "✓" } else { "" }.to_string(),
-                    if server.apps.gemini { "✓" } else { "" }.to_string(),
+                    if server.apps.claude { "✓" } else { " " }.to_string(),
+                    if server.apps.codex { "✓" } else { " " }.to_string(),
+                    if server.apps.gemini { "✓" } else { " " }.to_string(),
                 ]);
             }
 

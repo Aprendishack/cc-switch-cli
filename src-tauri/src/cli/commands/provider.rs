@@ -93,18 +93,11 @@ fn list_providers(app_type: AppType) -> Result<(), AppError> {
     });
 
     for (id, provider) in provider_list {
-        let current_marker = if id == current_id { "✓" } else { "" };
+        let current_marker = if id == current_id { "✓" } else { " " };
         let api_url = extract_api_url(&provider.settings_config, &app_type)
             .unwrap_or_else(|| "N/A".to_string());
 
-        // 当前 provider 的名称前加 * 标记，与交互式模式保持一致
-        let name = if id == current_id {
-            format!("* {}", provider.name)
-        } else {
-            format!("  {}", provider.name)
-        };
-
-        table.add_row(vec![current_marker.to_string(), name, api_url]);
+        table.add_row(vec![current_marker.to_string(), provider.name.clone(), api_url]);
     }
 
     println!("{}", table);

@@ -86,33 +86,19 @@ fn list_servers(app_type: AppType) -> Result<(), AppError> {
     server_list.sort_by(|(a, _), (b, _)| a.cmp(b));
 
     for (id, server) in server_list {
-        let claude_marker = if server.apps.claude { "✓" } else { "" };
-        let codex_marker = if server.apps.codex { "✓" } else { "" };
-        let gemini_marker = if server.apps.gemini { "✓" } else { "" };
+        let claude_marker = if server.apps.claude { "✓" } else { " " };
+        let codex_marker = if server.apps.codex { "✓" } else { " " };
+        let gemini_marker = if server.apps.gemini { "✓" } else { " " };
         let tags = server.tags.join(", ");
 
-        // 高亮当前应用启用的服务器
-        let is_enabled_for_current = server.apps.is_enabled_for(&app_type);
-
-        let row = if is_enabled_for_current {
-            vec![
-                highlight(&id),
-                highlight(&server.name),
-                claude_marker.to_string(),
-                codex_marker.to_string(),
-                gemini_marker.to_string(),
-                tags,
-            ]
-        } else {
-            vec![
-                id.clone(),
-                server.name.clone(),
-                claude_marker.to_string(),
-                codex_marker.to_string(),
-                gemini_marker.to_string(),
-                tags,
-            ]
-        };
+        let row = vec![
+            id.clone(),
+            server.name.clone(),
+            claude_marker.to_string(),
+            codex_marker.to_string(),
+            gemini_marker.to_string(),
+            tags,
+        ];
 
         table.add_row(row);
     }

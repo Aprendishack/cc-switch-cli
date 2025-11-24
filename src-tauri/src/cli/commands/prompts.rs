@@ -79,7 +79,7 @@ fn list_prompts(app_type: AppType) -> Result<(), AppError> {
     });
 
     for (id, prompt) in prompt_list {
-        let enabled_marker = if prompt.enabled { "✓" } else { "" };
+        let enabled_marker = if prompt.enabled { "✓" } else { " " };
         let updated = prompt.updated_at
             .map(|ts| {
                 use chrono::{DateTime, Utc};
@@ -101,23 +101,13 @@ fn list_prompts(app_type: AppType) -> Result<(), AppError> {
             description
         };
 
-        let row = if prompt.enabled {
-            vec![
-                highlight(enabled_marker),
-                highlight(&id),
-                highlight(&prompt.name),
-                description,
-                updated,
-            ]
-        } else {
-            vec![
-                enabled_marker.to_string(),
-                id.clone(),
-                prompt.name.clone(),
-                description,
-                updated,
-            ]
-        };
+        let row = vec![
+            enabled_marker.to_string(),
+            id.clone(),
+            prompt.name.clone(),
+            description,
+            updated,
+        ];
 
         table.add_row(row);
     }
