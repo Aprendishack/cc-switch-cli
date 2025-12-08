@@ -1260,15 +1260,12 @@ impl ProviderService {
             .settings_config
             .as_object()
             .ok_or_else(|| AppError::Config("Codex 配置必须是 JSON 对象".into()))?;
-        let auth = settings
-            .get("auth")
-            .ok_or_else(|| AppError::Config(format!("供应商 {} 缺少 auth 配置", provider.id)))?;
-        if !auth.is_object() {
-            return Err(AppError::Config(format!(
-                "供应商 {} 的 auth 必须是对象",
-                provider.id
-            )));
-        }
+
+        // auth 字段现在是可选的（Codex 0.64+ 使用环境变量）
+        let auth = settings.get("auth");
+        let auth_is_empty = auth
+            .map(|a| a.as_object().map(|o| o.is_empty()).unwrap_or(true))
+            .unwrap_or(true);
 
         // 获取存储的 config TOML 文本
         let cfg_text = settings
@@ -1366,9 +1363,13 @@ impl ProviderService {
         let config_path = get_codex_config_path();
         crate::config::write_text_file(&config_path, &new_text)?;
 
-        // 写 auth.json
-        let auth_path = get_codex_auth_path();
-        write_json_file(&auth_path, auth)?;
+        // 只在 auth 非空时写入 auth.json（Codex 0.64+ 使用环境变量，不需要 auth.json）
+        if !auth_is_empty {
+            if let Some(auth_value) = auth {
+                let auth_path = get_codex_auth_path();
+                write_json_file(&auth_path, auth_value)?;
+            }
+        }
 
         Ok(())
     }
@@ -1616,22 +1617,19 @@ impl ProviderService {
                     )
                 })?;
 
-                let auth = settings.get("auth").ok_or_else(|| {
-                    AppError::localized(
-                        "provider.codex.auth.missing",
-                        format!("供应商 {} 缺少 auth 配置", provider.id),
-                        format!("Provider {} is missing auth configuration", provider.id),
-                    )
-                })?;
-                if !auth.is_object() {
-                    return Err(AppError::localized(
-                        "provider.codex.auth.not_object",
-                        format!("供应商 {} 的 auth 配置必须是 JSON 对象", provider.id),
-                        format!(
-                            "Provider {} auth configuration must be a JSON object",
-                            provider.id
-                        ),
-                    ));
+                // auth 字段现在是可选的（Codex 0.64+ 使用环境变量）
+                // 如果存在，必须是对象
+                if let Some(auth) = settings.get("auth") {
+                    if !auth.is_object() {
+                        return Err(AppError::localized(
+                            "provider.codex.auth.not_object",
+                            format!("供应商 {} 的 auth 配置必须是 JSON 对象", provider.id),
+                            format!(
+                                "Provider {} auth configuration must be a JSON object",
+                                provider.id
+                            ),
+                        ));
+                    }
                 }
 
                 if let Some(config_value) = settings.get("config") {

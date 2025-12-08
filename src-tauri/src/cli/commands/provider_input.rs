@@ -3,7 +3,6 @@
 
 use crate::app_config::AppType;
 use crate::cli::i18n::texts;
-use crate::codex_config;
 use crate::error::AppError;
 use crate::provider::Provider;
 use colored::Colorize;
@@ -282,7 +281,7 @@ fn prompt_claude_config(current: Option<&Value>) -> Result<Value, AppError> {
     Ok(json!({ "env": env }))
 }
 
-/// Codex 配置输入（简化版：只收集基础字段）
+/// Codex 配置输入（双写模式：同时支持旧版本和 0.64+）
 fn prompt_codex_config(current: Option<&Value>) -> Result<Value, AppError> {
     println!("\n{}", texts::config_codex_header().bright_cyan().bold());
 
@@ -299,14 +298,18 @@ fn prompt_codex_config(current: Option<&Value>) -> Result<Value, AppError> {
 
     let mut current_base_url: Option<String> = None;
     let mut current_model: Option<String> = None;
+    let mut current_env_key: Option<String> = None;
+    let mut current_wire_api: Option<String> = None;
     if let Some(cfg) = current_config_str {
         if let Ok(table) = toml::from_str::<toml::Table>(cfg) {
             current_base_url = table.get("base_url").and_then(|v| v.as_str()).map(String::from);
             current_model = table.get("model").and_then(|v| v.as_str()).map(String::from);
+            current_env_key = table.get("env_key").and_then(|v| v.as_str()).map(String::from);
+            current_wire_api = table.get("wire_api").and_then(|v| v.as_str()).map(String::from);
         }
     }
 
-    // 1. API Key
+    // 1. API Key（恢复：用于旧版本 Codex 兼容性）
     let api_key = if let Some(current_key) = current_api_key {
         Text::new(texts::openai_api_key_label())
             .with_initial_value(current_key)
@@ -340,7 +343,7 @@ fn prompt_codex_config(current: Option<&Value>) -> Result<Value, AppError> {
     let model = if let Some(current) = current_model.as_deref() {
         Text::new("Model:")
             .with_initial_value(current)
-            .with_help_message("Model name (e.g., gpt-4, gpt-5.1-codex)")
+            .with_help_message("Model name (e.g., gpt-4, o3)")
             .prompt()
             .map_err(|e| AppError::Message(texts::input_failed_error(&e.to_string())))?
     } else {
@@ -351,13 +354,52 @@ fn prompt_codex_config(current: Option<&Value>) -> Result<Value, AppError> {
             .map_err(|e| AppError::Message(texts::input_failed_error(&e.to_string())))?
     };
 
-    // 构建 TOML 配置
+    // 4. Environment Variable Key (for Codex 0.64+)
+    println!("\n{}", texts::codex_env_key_info().yellow());
+    let env_key = if let Some(current) = current_env_key.as_deref() {
+        Text::new(texts::codex_env_key_label())
+            .with_initial_value(current)
+            .with_help_message(texts::codex_env_key_help())
+            .prompt()
+            .map_err(|e| AppError::Message(texts::input_failed_error(&e.to_string())))?
+    } else {
+        Text::new(texts::codex_env_key_label())
+            .with_placeholder("OPENAI_API_KEY")
+            .with_help_message(texts::codex_env_key_help())
+            .prompt()
+            .map_err(|e| AppError::Message(texts::input_failed_error(&e.to_string())))?
+    };
+    let env_key = if env_key.trim().is_empty() {
+        "OPENAI_API_KEY".to_string()
+    } else {
+        env_key.trim().to_string()
+    };
+
+    // 5. Wire API format (chat or responses)
+    let wire_api_options = vec!["chat", "responses"];
+    let default_wire_api_index = match current_wire_api.as_deref() {
+        Some("responses") => 1,
+        _ => 0, // default to chat
+    };
+    let wire_api = Select::new(texts::codex_wire_api_label(), wire_api_options)
+        .with_starting_cursor(default_wire_api_index)
+        .with_help_message(texts::codex_wire_api_help())
+        .prompt()
+        .map_err(|e| AppError::Message(texts::input_failed_error(&e.to_string())))?;
+
+    // 构建 TOML 配置（存储所有必要字段）
     let config_toml = format!(
-        "base_url = \"{}\"\nmodel = \"{}\"",
+        "base_url = \"{}\"\nmodel = \"{}\"\nenv_key = \"{}\"\nwire_api = \"{}\"",
         base_url.trim(),
-        model.trim()
+        model.trim(),
+        env_key,
+        wire_api
     );
 
+    // 提示用户关于双写模式
+    println!("\n{}", texts::codex_dual_write_info(&env_key, api_key.trim()).bright_yellow());
+
+    // 返回完整配置（auth 用于旧版本，config 用于 0.64+）
     Ok(json!({
         "auth": { "OPENAI_API_KEY": api_key.trim() },
         "config": config_toml

@@ -769,6 +769,81 @@ pub mod texts {
         }
     }
 
+    // Codex 0.64+ Configuration
+    pub fn codex_env_key_info() -> &'static str {
+        if is_chinese() {
+            "⚠ Codex 0.64+ 需要通过环境变量提供 API 密钥"
+        } else {
+            "⚠ Codex 0.64+ requires API key via environment variable"
+        }
+    }
+
+    pub fn codex_env_key_label() -> &'static str {
+        if is_chinese() {
+            "环境变量名称："
+        } else {
+            "Environment Variable Name:"
+        }
+    }
+
+    pub fn codex_env_key_help() -> &'static str {
+        if is_chinese() {
+            "Codex 将从此环境变量读取 API 密钥（默认: OPENAI_API_KEY）"
+        } else {
+            "Codex will read API key from this env var (default: OPENAI_API_KEY)"
+        }
+    }
+
+    pub fn codex_wire_api_label() -> &'static str {
+        if is_chinese() {
+            "API 格式："
+        } else {
+            "API Format:"
+        }
+    }
+
+    pub fn codex_wire_api_help() -> &'static str {
+        if is_chinese() {
+            "chat = Chat Completions API (大多数第三方), responses = OpenAI Responses API"
+        } else {
+            "chat = Chat Completions API (most providers), responses = OpenAI Responses API"
+        }
+    }
+
+    pub fn codex_env_reminder(env_key: &str) -> String {
+        if is_chinese() {
+            format!(
+                "⚠ 请确保已设置环境变量 {} 并包含您的 API 密钥\n  例如: export {}=\"your-api-key\"",
+                env_key, env_key
+            )
+        } else {
+            format!(
+                "⚠ Make sure to set the {} environment variable with your API key\n  Example: export {}=\"your-api-key\"",
+                env_key, env_key
+            )
+        }
+    }
+
+    pub fn codex_dual_write_info(env_key: &str, _api_key: &str) -> String {
+        if is_chinese() {
+            format!(
+                "✓ 双写模式已启用（兼容所有 Codex 版本）\n\
+                  • 旧版本 Codex: 将使用 auth.json 中的 API Key\n\
+                  • Codex 0.64+: 可使用环境变量 {} (更安全)\n\
+                    例如: export {}=\"your-api-key\"",
+                env_key, env_key
+            )
+        } else {
+            format!(
+                "✓ Dual-write mode enabled (compatible with all Codex versions)\n\
+                  • Legacy Codex: Will use API Key from auth.json\n\
+                  • Codex 0.64+: Can use env variable {} (more secure)\n\
+                    Example: export {}=\"your-api-key\"",
+                env_key, env_key
+            )
+        }
+    }
+
     pub fn use_current_config_prompt() -> &'static str {
         if is_chinese() {
             "使用当前配置？"
